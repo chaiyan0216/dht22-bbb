@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>Sensors</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      function clock() {
+        var time = new Date().toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false
+        });
+        document.getElementById('time').innerHTML = time;
+      }
+
+      function update(){
+          $.ajax({
+              url: '/api/get',
+              success: function (data) {
+                  if (data[0] != 0) {
+                      document.getElementById('temp').innerHTML = data[0] + " °C";
+                      document.getElementById('hum').innerHTML = data[1] + " %";
+                  }
+              }
+          });
+      }
+
+      window.setInterval(function(){
+        clock();
+      }, 1000);
+      window.setInterval(function(){
+        update();
+      }, 10000);
+    </script>
+  </head>
+  <body onload="clock(), update()">
+    <ul>
+      <li>
+        <span><i class="far fa-clock"></i>&ensp;</span><span id='time'></span>
+      </li>
+      <li>
+        <span><i class="fas fa-thermometer-half"></i>&emsp;</span><span id='temp'>Temp</span>
+      </li>
+      <li>
+        <span><i class="fas fa-tint"></i>&emsp;</span><span id='hum'>Hum</span>
+      </li>
+    </ul>
+  </body>
+</html>
