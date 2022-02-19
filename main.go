@@ -30,7 +30,7 @@ func getHumAndTemp(w http.ResponseWriter, request *http.Request) {
     temp := C.float(0.00)
     C.bbb_dht_read(DHT22, P9, PIN12, &hum, &temp)
 
-    fmt.Fprintf(w, "[%.2f, %.2f]", hum, temp)
+    fmt.Fprintf(w, "[%.2f, %.2f]", temp, hum)
 }
 
 func main() {
